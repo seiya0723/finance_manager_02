@@ -1,0 +1,34 @@
+{% extends "finance/base.html" %}
+
+{% block main %}
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>
+            <span>収入：</span>
+            <input type="checkbox" name="income">
+        </label>
+        <select name="expense_item">
+            {% for expense_item in expense_items %}
+            <option value="{{ expense_item.id }}">{{ expense_item.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="amount">
+        <input type="date" name="use_date">
+        <textarea name="description"></textarea>
+
+        <input type="submit" value="送信">
+    </form>
+
+    {% for balance in balances %}
+    <div class="border">
+        <div>投稿日時：{{ balance.dt            }}</div>
+        <div>ユーザー：{{ balance.user.username }}</div>
+        <div>収支：{{ balance.expense_item.income }}</div>
+        <div>費目：{{ balance.expense_item.name }}</div>
+        <div>金額：{{ balance.amount            }}</div>
+        <div>利用日：{{ balance.use_date        }}</div>
+        <div>利用内容：{{ balance.description   }}</div>
+    {% endfor %}
+{% endblock %}
+
